@@ -1,21 +1,19 @@
 package file.service;
 
+
+import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import jakarta.persistence.criteria.CriteriaBuilder;
+import file.entity.AttachmentFile;
+import file.repository.AttachmentFileRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import com.amazonaws.services.s3.AmazonS3;
-
-import file.entity.AttachmentFile;
-import file.repository.AttachmentFileRepository;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 
 import java.io.File;
 import java.util.NoSuchElementException;
@@ -41,7 +39,7 @@ public class S3Service {
 			throw new Exception("파일 전달 오류 발생");
 		}
 		// 1. DB 저장
-		String savePath = "/Users/jangminji/Documents/장민지/클라우드/AWS/S3/"+DIR_NAME;
+		String savePath = "/tmp/"+DIR_NAME;
 		String attachmentOriginalFileName = file.getOriginalFilename();
 		UUID uuid = UUID.randomUUID();
 		String attachmentFileName = uuid.toString()+"_"+file.getOriginalFilename();
